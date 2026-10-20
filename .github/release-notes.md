@@ -2,10 +2,10 @@
 
 钱学森、宋健 著 · 科学出版社 2011 · ISBN 978-7-03-030094-2
 
-本次发布包含：
+本次发布包含（由 GitHub Actions 在 `ubuntu-latest` 上自动构建）：
 
-- `工程控制论（第三版）.epub` — EPUB3，公式为原生 MathML（可选中/检索/缩放），21 章、250 节、420 张插图
-- `工程控制论（第三版）.pdf` — 由同一份 `book.tex` 经 XeLaTeX（ctex + fandol）排印
+- `engineering-cybernetics-3rd.epub` — EPUB3，公式为原生 MathML（可选中/检索/缩放），21 章、250 节、420 张插图
+- `engineering-cybernetics-3rd.pdf` — 由同一份 `book.tex` 经 XeLaTeX（ctex + fandol）排印
 
 ### 致谢
 
