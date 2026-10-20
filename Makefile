@@ -41,7 +41,8 @@ pdf: $(PDF)
 
 $(PDF): book.tex $(wildcard figs/*.png) tools/latex_fix.py | $(DIST)
 	python3 tools/latex_fix.py book.tex book.build.tex
-	$(LATEXMK) -xelatex -interaction=nonstopmode -f -outdir=$(DIST) book.build.tex
+	-$(LATEXMK) -xelatex -interaction=nonstopmode -f -outdir=$(DIST) book.build.tex
+	@test -f $(DIST)/book.build.pdf || (echo "PDF 未生成："; tail -40 $(DIST)/book.build.log 2>/dev/null; exit 1)
 	mv -f $(DIST)/book.build.pdf "$@"
 
 check:
