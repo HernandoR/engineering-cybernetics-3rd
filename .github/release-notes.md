@@ -1,5 +1,7 @@
 ## 工程控制论（第三版）· LaTeX 重建版
 
+**v1.0.1**：修复 EPUB 封面——补 legacy `<meta name="cover">`，封面页由 SVG 改为普通 `<img>`（Calibre / KOReader / 多看 / Kindle 转换均能识别）。
+
 钱学森、宋健 著 · 科学出版社 2011 · ISBN 978-7-03-030094-2
 
 本次发布包含（由 GitHub Actions 在 `ubuntu-latest` 上自动构建）：
