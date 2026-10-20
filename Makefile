@@ -34,8 +34,9 @@ $(DIST):
 
 epub: $(EPUB)
 
-$(EPUB): book.tex epub.css cover.png $(wildcard figs/*.png) | $(DIST)
+$(EPUB): book.tex epub.css cover.png $(wildcard figs/*.png) tools/fix_epub_cover.py | $(DIST)
 	$(PANDOC) $(PANDOC_FLAGS) -o "$@" book.tex
+	python3 tools/fix_epub_cover.py "$@"
 
 pdf: $(PDF)
 
