@@ -53,12 +53,15 @@ jobs:
           fc-list :lang=zh | head -3
 
       - name: Build PDF
-        run: make pdf || (echo "PDF build failed — see book.log" && tail -60 dist/book.log && exit 1)
+        run: make pdf
+
+      - name: Rename artifact (ASCII)
+        run: mkdir -p out && cp dist/*.pdf out/engineering-cybernetics-3rd.pdf
 
       - uses: actions/upload-artifact@v4
         with:
           name: pdf
-          path: dist/*.pdf
+          path: out/*.pdf
           if-no-files-found: warn
 
   release:
