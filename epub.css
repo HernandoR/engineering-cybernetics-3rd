@@ -1,0 +1,21 @@
+@charset "utf-8";
+body {
+  font-family: "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+  line-height: 1.75;
+  margin: 0 4%;
+  text-align: justify;
+}
+h1, h2, h3, h4 { font-family: "PingFang SC", "Noto Sans CJK SC", sans-serif;
+  line-height: 1.45; margin: 1.3em 0 .7em; }
+h1 { font-size: 1.6em; text-align: center; }
+h2 { font-size: 1.25em; }
+h3 { font-size: 1.08em; }
+p { margin: .45em 0; text-indent: 2em; }
+figure { margin: 1em 0; text-align: center; page-break-inside: avoid; }
+figure img { max-width: 100%; height: auto; }
+figcaption { font-size: .85em; color: #444; text-indent: 0; margin-top: .3em; }
+math { font-size: 1.02em; }
+math[display="block"] { display: block; margin: .8em 0; overflow-x: auto; }
+ul, ol { margin: .5em 0 .5em 1.5em; }
+li { text-indent: 0; }
+blockquote { margin: .8em 1.5em; color: #333; }

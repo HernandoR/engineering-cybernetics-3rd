@@ -1,0 +1,81 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  epub:
+    name: EPUB (pandoc + MathML)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pandoc 3.5
+        run: |
+          curl -sSL -o pandoc.deb \
+            https://github.com/jgm/pandoc/releases/download/3.5/pandoc-3.5-1-amd64.deb
+          sudo dpkg -i pandoc.deb
+          pandoc --version | head -1
+
+      - name: Build EPUB
+        run: make epub
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: epub
+          path: dist/*.epub
+          if-no-files-found: error
+
+  pdf:
+    name: PDF (XeLaTeX)
+    runs-on: ubuntu-latest
+    # PDF 依赖整套 TeX Live + 中文字体，允许失败而不阻塞发布
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeX Live + CJK fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk texlive-xetex texlive-lang-chinese texlive-latex-extra \
+            texlive-fonts-recommended fonts-noto-cjk
+          fc-list :lang=zh | head -3
+
+      - name: Build PDF
+        run: make pdf || (echo "PDF build failed — see book.log" && tail -60 dist/book.log && exit 1)
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pdf
+          path: dist/*.pdf
+          if-no-files-found: warn
+
+  release:
+    name: Release
+    needs: [epub, pdf]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Show artifacts
+        run: ls -lh dist
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          body_path: .github/release-notes.md
+          fail_on_unmatched_files: false
