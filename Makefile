@@ -39,12 +39,14 @@ $(EPUB): book.tex epub.css cover.png $(wildcard figs/*.png) | $(DIST)
 
 pdf: $(PDF)
 
-$(PDF): book.tex $(wildcard figs/*.png) | $(DIST)
-	$(LATEXMK) -xelatex -interaction=nonstopmode -f -outdir=$(DIST) book.tex
+$(PDF): book.tex $(wildcard figs/*.png) tools/latex_fix.py | $(DIST)
+	python3 tools/latex_fix.py book.tex book.build.tex
+	$(LATEXMK) -xelatex -interaction=nonstopmode -f -outdir=$(DIST) book.build.tex
+	mv -f $(DIST)/book.build.pdf "$@"
 
 check:
 	@command -v $(PANDOC) >/dev/null || (echo "缺少 pandoc" && exit 1)
 	@command -v $(LATEXMK) >/dev/null || echo "提示：没有 latexmk 时只能构建 EPUB"
 
 clean:
-	rm -rf $(DIST) book.aux book.log book.toc book.out book.fls book.fdb_latexmk
+	rm -rf $(DIST) book.build.tex book.aux book.log book.toc book.out book.fls book.fdb_latexmk

@@ -8,3 +8,4 @@ dist/
 *.synctex.gz
 book.pdf
 .DS_Store
+book.build.tex
